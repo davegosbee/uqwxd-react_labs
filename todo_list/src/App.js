@@ -1,32 +1,34 @@
 import React from "react";
 import "./App.css";
 const App = () => {
-  const [todos, setTodos] = React.useState([]);
+  const [todos, setTodos] = React.useState( ()=> {
+    const json = localStorage.getItem("todos");
+    const loadedTodos = JSON.parse(json);
+    return loadedTodos || [];
+  });
+
   const [todo, setTodo] = React.useState("");
 
   const [todoEditing, setTodoEditing] = React.useState(null);
   const [editingText, setEditingText] = React.useState("");
-
+  
 
   React.useEffect(() => {
     const json = localStorage.getItem("todos");
-    alert("local storage: " + json);
     const loadedTodos = JSON.parse(json);
     
     if (loadedTodos) {
       setTodos(loadedTodos);
       
-    } else {
-        alert("didnt load todos");
-    }
+    } 
+    
   }, []);
 
   React.useEffect(() => {
-      
-    alert("current todos:" + JSON.stringify(todos));
-    const json = JSON.stringify(todos);
-    localStorage.setItem("todos", json);
-
+    
+        const json = JSON.stringify(todos);
+        localStorage.setItem("todos", json);
+    
   }, [todos]);
   
 
